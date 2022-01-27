@@ -1,6 +1,6 @@
 import os
-import random
 os.system("cls")
+import random
 from game.die import Die
 
 
@@ -15,6 +15,7 @@ class Director:
         score (int): The score for one round of play.
         total_score (int): The score for the entire game.
     """
+    
 
     def __init__(self):
         """Constructs a new Director.
@@ -22,14 +23,12 @@ class Director:
         Args:
             self (Director): an instance of Director.
         """
-        self.dice = []
         self.is_playing = True
-        self.score = 0
-        self.total_score = 0
+        self.score = 300
+        
+        
 
-        for i in range(1):
-            die = Die()
-            self.dice.append(die)
+
 
     def start_game(self):
         """Starts the game by running the main game loop.
@@ -48,13 +47,13 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
-        self.value = random.randint(1, 13)
-        print(f"The card is: {self.value}")
+        self.random_value1 = random.randint(1, 13)
+        print(f"The card is: {self.random_value1}")
 
-        select_card = input("Higher or Lower? [h/l] ")
-        self.value = random.randint(1, 13)
-        print(f"The card is: {self.value}")
-        # self.is_playing = (select_card = "y")
+        self.card = input("Higher or Lower? [h/l] ")
+        self.random_value2 = random.randint(1, 13)
+        print(f"The card is: {self.random_value2}")
+       
        
     def do_updates(self):
         """Updates the player's score.
@@ -65,11 +64,13 @@ class Director:
         if not self.is_playing:
             return 
 
-        for i in range(len(self.dice)):
-            die = self.dice[i]
-            die.roll()
-            self.score += die.points 
-        self.total_score += self.score
+        if self.random_value1 < self.random_value2 and self.card == "h":
+            self.score += 100
+        elif self.random_value1 > self.random_value2 and self.card == "l":
+            self.score += 100
+        else:
+            self.score -= 75
+
 
     def do_outputs(self):
         """Displays the dice and the score. Also asks the player if they want to roll again. 
@@ -79,12 +80,10 @@ class Director:
         """
         if not self.is_playing:
             return
-        
-        values = ""
-        for i in range(len(self.dice)):
-            die = self.dice[i]
-            values += f"{die.value} "
 
-        print(f"You rolled: {values}")
-        print(f"Your score is: {self.total_score}\n")
-        self.is_playing == (self.score > 0)
+        print(f"Your score is equal to: {self.score}")
+        self.play_again = input("Play again? [y/n] ")
+        if self.play_again == "y":
+            self.is_playing == (self.score > 0)
+        else:
+            print(f"Thank you for playing")
